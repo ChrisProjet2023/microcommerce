@@ -66,6 +66,7 @@ public class ProductController {
 	
 	@PostMapping(value = "/Produits")
 	public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
+		//if(productDao.)
 		productDao.save(product);
 		return null;
 	}
@@ -117,5 +118,19 @@ public class ProductController {
 		produitsFiltres.setFilters(listDeNosFiltres);
 		
 		return produitsFiltres;
+	}
+	
+	//calcul de la marge de chaque produit
+	@GetMapping(value = "/Produits/{id}")
+	public int calculMargeProduit(@PathVariable int id) {
+		return (productDao.findById(id).getPrixAchat() - productDao.findById(id).getPrix());
+	}
+	
+	//trier la liste des produits par ordre croissant
+	@GetMapping("/Produits")
+	public  List<Product>  trierProduitsParOrdreAlphabetique() {
+		return productDao.findAll();
+		
+		
 	}
 }
